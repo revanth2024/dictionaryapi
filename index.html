@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dictionary : Find your meaning and explanation</title>
+    <link rel="shortcut icon" href="assets/images/favicon.png" type="image/x-icon">  
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="background">
+        <div class="container">
+            <div>
+                <div>
+                    <h1 class="heading">Dictionary</h1>
+                    <p class="content">The only place success comes before work is in the dictionary</p>
+                </div>
+                <div class="mainflex">
+                    <div class="inputdetails">
+                        <input type="text" placeholder="Enter your word" id="inputtag">
+                        <button id="searchbtn">Search</button>
+                        <div class="subflex">
+                            <h4 id="firstmeaning">Synonyms :</h4>
+                            <p id="synonymword"></p>
+                        </div>
+                        <div class="subflex">
+                            <h4 id="secondmeaning">Another word :</h4>
+                            <p id="synonymanother"></p>
+                        </div>
+                        <div class="subflex">
+                            <h4 id="Partofspeech">Part of speech :</h4>
+                            <p id="objectname"></p>
+                        </div>
+                        <div class="subflextwo">
+                            <h4 id="Definition">Definition:</h4>
+                            <p id="descriptionone"></p>
+                        </div>
+                        <div class="subflextwo">
+                            <h4 id="Explanation">Explanation:</h4>
+                            <p id="descriptiontwo"></p>
+                        </div>
+                    </div>   
+                    <div>
+                        <img src="assets/images/istockphoto-537342688-612x612-removebg-preview.png" alt="images">
+                    </div>                            
+                </div> 
+            </div>                      
+        </div> 
+    </section>   
+    
+    <script>
+        let inputtag = document.getElementById("inputtag");
+        console.log(inputtag.value);
+        let synonymwordvariable = document.getElementById("synonymword");
+        let meaningvariable = document.getElementById("synonymanother");
+        let descriptiononevr = document.getElementById("descriptionone");
+        let descriptiontwovr = document.getElementById("descriptiontwo");
+        let objectnamevr = document.getElementById("objectname");
+        let firstmeaningvariable = document.getElementById("firstmeaning");
+        let secondmeaningvariable = document.getElementById("secondmeaning");
+        let Partofspeechvariable = document.getElementById("Partofspeech");
+        let Definitionhvariable = document.getElementById("Definition");
+        let Explanationvariable = document.getElementById("Explanation");
+
+        let btnvariable = document.getElementById("searchbtn");
+
+        firstmeaningvariable.style.display="none";
+        secondmeaningvariable.style.display="none";
+        Partofspeechvariable.style.display="none";
+        Definitionhvariable.style.display="none";
+        Explanationvariable.style.display="none";
+
+        btnvariable,addEventListener("click",function(event){
+            event.preventDefault();
+
+        fetch("https://api.dictionaryapi.dev/api/v2/entries/en/"+inputtag.value+"")
+        .then(result=>result.json())
+        .then(output=>{
+            console.log(output[0].phonetics[1]);
+            console.log(output[0].meanings[0].partOfSpeech);
+            console.log(output[0].meanings[0].definitions[0]);
+            console.log(output[0].meanings[0].definitions[1]);
+            console.log(output[0].meanings[0].synonyms[0]);
+            console.log(output[0].meanings[0].synonyms[1]);
+
+            firstmeaningvariable.style.display="flex";
+            synonymwordvariable.innerHTML = output[0].meanings[0].synonyms[1];
+            secondmeaningvariable.style.display="flex";
+            meaningvariable.innerHTML = output[0].meanings[0].synonyms[0];
+            Partofspeechvariable.style.display="flex";
+            objectnamevr.innerHTML=output[0].meanings[0].partOfSpeech;
+            Definitionhvariable.style.display="flex";
+            descriptiononevr.innerHTML = output[0].meanings[0].definitions[0].definition;
+            Explanationvariable.style.display="flex";
+            descriptiontwovr.innerHTML = output[0].meanings[0].definitions[1].definition;            
+        })
+        .catch(error=>alert=(error));
+        })
+
+        </script>
+
+</body>
+</html>
